@@ -1,9 +1,7 @@
 package com.objective.fizzbuzz.controller;
 
-import com.objective.fizzbuzz.enums.FizzBuzz;
 import com.objective.fizzbuzz.service.FizzBuzzService;
 
-import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

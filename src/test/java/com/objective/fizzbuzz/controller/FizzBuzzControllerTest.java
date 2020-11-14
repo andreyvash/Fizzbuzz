@@ -1,19 +1,15 @@
 package com.objective.fizzbuzz.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static com.objective.fizzbuzz.enums.FizzBuzz.*;
 
-import com.objective.fizzbuzz.enums.FizzBuzz;
 
-import org.codehaus.jackson.JsonProcessingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,7 +25,7 @@ public class FizzBuzzControllerTest {
     private WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
-  
+
 
     @BeforeEach
     public void setUp()
@@ -68,5 +64,32 @@ public class FizzBuzzControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$").value(FIZZ.getDescricao() + BUZZ.getDescricao()));
+    }
+
+    @Test
+    public void deveRetornarErro_quandoNumeroMaiorQue100() throws Exception
+    {
+        mockMvc.perform(get("/fizzbuzz/101")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+				.andExpect(jsonPath("$").value("Numero deve estar entre 1 e 100"));
+    }
+
+    @Test
+    public void deveRetornarErro_quandoNumeroMenorQue1() throws Exception
+    {
+        mockMvc.perform(get("/fizzbuzz/0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+				.andExpect(jsonPath("$").value("Numero deve estar entre 1 e 100"));
+    }
+
+    @Test
+    public void deveRetornarNumero_quandoNumeroNaoEhMultiplo() throws Exception
+    {
+        mockMvc.perform(get("/fizzbuzz/13")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+				.andExpect(jsonPath("$").value("13"));
     }
 }

@@ -1,5 +1,6 @@
 package com.objective.fizzbuzz.service;
 
+
 import com.objective.fizzbuzz.enums.FizzBuzz;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +10,9 @@ public class FizzBuzzService {
     
     public String multiplo(int numero)
     {
+        if(numero < 1 || numero > 100)
+            return "Numero deve estar entre 1 e 100";
+
         StringBuilder str = new StringBuilder();
 
         if(multiploDeN(numero, 3))
